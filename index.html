@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculator</title>
+    <style>
+        *{
+            font-family: Arial, Helvetica, sans-serif;
+        }
+        #calculator{
+            width: 300px;
+            margin: auto;
+            height: max-content;
+            font-size: 20pt;
+            border: 1px solid;
+            box-sizing: border-box;
+        }
+        .display{
+            text-align: right;
+            padding: 10px;
+            font-size: 25pt;
+            border: 1px solid;
+        }
+        .row{
+            display: flex;
+            height: 75px;
+        }
+        .row .key{
+            width: 25%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: lightgrey;
+            border: 1px solid;
+            box-sizing: border-box;
+        }
+        .row .key:hover{
+            cursor: pointer;
+        }
+        .row .key:active{
+            background-color: rgb(235, 235, 235);
+        }
+    </style>
+</head>
+<body>
+    <main>
+        <div id="calculator">
+            <div class="display">0</div>
+            <div class="keypad">
+                <div class="row">
+                    <div class="key">7</div>
+                    <div class="key">8</div>
+                    <div class="key">9</div>
+                    <div class="key">+</div>
+                </div>
+                <div class="row">
+                    <div class="key">4</div>
+                    <div class="key">5</div>
+                    <div class="key">6</div>
+                    <div class="key">-</div>
+                </div>
+                <div class="row">
+                    <div class="key">1</div>
+                    <div class="key">2</div>
+                    <div class="key">3</div>
+                    <div class="key">x</div>
+                </div>
+                <div class="row">
+                    <div class="key">.</div>
+                    <div class="key">0</div>
+                    <div class="key">/</div>
+                    <div class="key">=</div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <script>
+        let hitung=function(display){
+            let operator;
+            for(let i=0; i<display.length; i++){
+                if(display[i]=='+' || display[i]=='-' || display[i]=='x' || display[i]=='/'){
+                    operator=display[i];
+                }
+            }
+            angka=display.split(operator);
+            if(!operator){
+                return false;
+            }
+            switch(operator){
+                case '+':
+                    return Number(angka[0])+Number(angka[1]);
+                    break;
+                case '-':
+                    return Number(angka[0])-Number(angka[1]);
+                    break;
+                case 'x':
+                    return Number(angka[0])*Number(angka[1]);
+                    break;
+                case '/':
+                    return Number(angka[0])/Number(angka[1]);
+                    break;
+            }
+        }
+        const display=document.querySelector('.display');
+        const keypad=document.querySelector('.keypad');
+
+        let hasil;
+        keypad.querySelectorAll('.row').forEach(function(el){
+            el.querySelectorAll('.key').forEach(function(el){
+                el.addEventListener('click', function(e){
+                    if(e.target.innerHTML!='='){
+                        if(e.target.innerHTML=='+' || e.target.innerHTML=='-' || e.target.innerHTML=='x' || e.target.innerHTML=='/'){
+                            operator=e.target.innerHTML;
+                        }
+                        if(e.target.innerHTML!='.'){
+                            if(display.innerHTML=='0'){
+                                display.innerHTML='';
+                            }
+                        }
+                        display.innerHTML+=this.innerHTML;
+                    }else{
+                        angka=display.innerHTML.split('+');
+                        angka=display.innerHTML.split('-');
+                        angka=display.innerHTML.split('x');
+                        angka=display.innerHTML.split('/');
+                        hasil=hitung(display.innerHTML);
+                        if(!hasil){
+                            return false;
+                        }
+                        display.innerHTML=hasil;
+                    }
+                    // hasil=hitung(angka[0], angka[1], operator);
+                });
+            });
+        });
+    </script>
+</body>
+</html>
